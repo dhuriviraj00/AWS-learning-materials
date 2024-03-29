@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    environment{
+        dockerhub=credentials('docker')
+    }
+    
+    stages {
+        stage('Git Checkout....') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Git', url: 'https://github.com/devopscloudworld/jenkins-nodejs-docker-k8s.git']]])
+            }
+        }
+        
+        stage('Build Docker Image....') {
+            steps {
+                sh 'docker build -t dockervk23/docker76023:latest . '
+            }
+        }
+        
+        stage('Publish Artifacts To Dockerhub....') {
+            steps {
+                sh 'docker image ls'
+                sh 'docker logout'
+                sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin docker.io'
+                sh 'docker push dockervk23/docker76023:latest'
+            }
+        }
+
+    }
+}

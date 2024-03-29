@@ -1,0 +1,37 @@
+LVM
+
+Introduction to Logical Volume Management
+
+setp-1 
+
+install LVM - yum install lvm* -y
+
+pvcreate /dev/sdb /dev/sdc -all your physical vloume to create 
+pvs
+pvscan
+pvdispaly
+-------------------------------------------------------------
+
+setp-2
+vgs to verify  
+vgcreate myvg /dev/sdb /dev/sdc  to cerate new vloume group add 
+vgs
+vgscan
+vgsispaly
+
+-----------------------------------------------------------
+step-3
+lvs
+lvcreate -n lvname -l 3G /dev/vgname (-to create ne lvs)
+lvreduce -L  -3G /dev/vgname         (-to reduce vlome lvs)
+lvextend -L  +2G /dev/vgname         (-to extend vlome lvs) 
+
+------------------------------------------------------------
+
+pvs to check all Physical Volumes  
+lvs to check all Volume Group
+vgs to check all logical volume
+
+
+
+

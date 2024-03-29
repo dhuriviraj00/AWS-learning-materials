@@ -1,0 +1,51 @@
+Lab 1
+
+setup-1 sudo apt update
+
+2 sudo apt install openjdk-8-jdk -y
+
+3 sudo apt install ca-certificates -y
+
+4 sudo apt install maven git wget unzip -y
+
+(after Jenkins installation setup) 
+
+1. Login to Jenkins server. Switch to root - sudo su
+2. Run command - apt install docker.io
+3. Run command - usermod -a -G docker jenkins
+4. Run command - service jenkins restart
+
+https://pkg.jenkins.io/debian
+
+_____________________________________________
+
+pipeline {
+    agent any
+    environment{
+        dockerhub=credentials('docker')
+    }
+    
+    stages {
+        stage('Git Checkout....') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Git', url: 'https://github.com/dhuriviraj00/jenkins-nodejs-docker-k8s-main.git']]])
+            }
+        }
+        
+        stage('Build Docker Image....') {
+            steps {
+                sh 'docker build -t dockervk23/docker76023:latest . '
+            }
+        }
+        
+        stage('Publish Artifacts To Dockerhub....') {
+            steps {
+                sh 'docker image ls'
+                sh 'docker logout'
+                sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin docker.io'
+                sh 'docker push dockervk23/docker76023:latest'
+            }
+        }
+
+    }
+}

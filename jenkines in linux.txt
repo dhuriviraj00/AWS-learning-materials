@@ -1,0 +1,16 @@
+https://pkg.jenkins.io/debian/
+
+sudo apt update
+sudo apt install openjdk-8-jdk -y
+sudo apt install ca-certificates -y
+sudo apt install maven git wget unzip -y 
+
+4e97b950bcf7460c9f1bbeaceda201f3
+
+1. Login to Jenkins server. Switch to root - sudo su
+2. Run command - apt install docker.io
+3. Run command - usermod -a -G docker jenkins
+4. Run command - service jenkins restart
+
+
+https://pkg.jenkins.io/debian
